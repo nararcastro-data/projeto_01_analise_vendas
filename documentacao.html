@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentação — Projeto 01</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1e40af;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --muted: #64748b;
+      --code-bg: #1e293b;
+      --code-fg: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: #fff; padding: 48px 32px; text-align: center;
+    }
+    header h1 { font-size: 2rem; margin-bottom: 8px; }
+    header p { opacity: .85; font-size: 1rem; }
+
+    nav {
+      background: var(--primary-dark); display: flex; flex-wrap: wrap;
+      justify-content: center; gap: 4px; padding: 10px 16px;
+    }
+    nav a {
+      color: #bfdbfe; text-decoration: none; font-size: .85rem;
+      padding: 4px 12px; border-radius: 4px; transition: background .2s;
+    }
+    nav a:hover { background: rgba(255,255,255,.15); color: #fff; }
+
+    main { max-width: 960px; margin: 40px auto; padding: 0 20px 60px; }
+
+    section { margin-bottom: 40px; }
+    h2 {
+      font-size: 1.25rem; color: var(--primary); border-left: 4px solid var(--primary);
+      padding-left: 12px; margin-bottom: 16px;
+    }
+    h3 { font-size: 1rem; color: var(--primary-dark); margin: 20px 0 8px; }
+
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 20px; margin-bottom: 16px;
+    }
+
+    pre {
+      background: var(--code-bg); color: var(--code-fg);
+      padding: 16px; border-radius: 6px; overflow-x: auto;
+      font-size: .85rem; line-height: 1.6; margin: 10px 0;
+    }
+    code { font-family: 'Cascadia Code', 'Courier New', monospace; }
+    p code, li code {
+      background: #e0e7ff; color: var(--primary-dark);
+      padding: 1px 5px; border-radius: 3px; font-size: .88em;
+    }
+
+    table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+    th { background: var(--primary); color: #fff; padding: 10px 14px; text-align: left; }
+    td { padding: 9px 14px; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: #f1f5f9; }
+
+    ul, ol { padding-left: 20px; }
+    li { margin-bottom: 6px; }
+
+    .tag {
+      display: inline-block; font-size: .75rem; font-weight: 600;
+      padding: 2px 8px; border-radius: 10px; margin-right: 4px;
+    }
+    .tag-blue  { background: #dbeafe; color: #1d4ed8; }
+    .tag-green { background: #dcfce7; color: #15803d; }
+    .tag-amber { background: #fef9c3; color: #92400e; }
+
+    .warn {
+      background: #fefce8; border-left: 4px solid #eab308;
+      padding: 12px 16px; border-radius: 4px; font-size: .9rem;
+    }
+
+    .flow {
+      display: flex; flex-wrap: wrap; gap: 0; align-items: center;
+      margin: 12px 0;
+    }
+    .flow-step {
+      background: var(--primary); color: #fff;
+      padding: 8px 16px; border-radius: 4px; font-size: .85rem; font-weight: 600;
+    }
+    .flow-arrow { color: var(--muted); font-size: 1.2rem; padding: 0 6px; }
+
+    footer {
+      text-align: center; padding: 24px; font-size: .8rem;
+      color: var(--muted); border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>📊 Projeto 01 — Análise de Vendas</h1>
+  <p>Pipeline de dados com PostgreSQL + MySQL, geração de gráficos e envio de relatório por e-mail</p>
+</header>
+
+<nav>
+  <a href="#visao-geral">Visão Geral</a>
+  <a href="#estrutura">Estrutura</a>
+  <a href="#dependencias">Dependências</a>
+  <a href="#configuracao">Configuração</a>
+  <a href="#modulos">Módulos</a>
+  <a href="#fluxo">Fluxo</a>
+  <a href="#saidas">Saídas</a>
+  <a href="#erros">Erros</a>
+</nav>
+
+<main>
+
+  <!-- VISÃO GERAL -->
+  <section id="visao-geral">
+    <h2>Visão Geral</h2>
+    <div class="card">
+      <p>
+        Pipeline Python que extrai dados de vendas de dois bancos de dados distintos
+        (<strong>MySQL</strong> — Empresa 01 e <strong>PostgreSQL</strong> — Empresa 02),
+        consolida os dados, gera um gráfico comparativo de vendas por ano em escala logarítmica
+        e envia o relatório automaticamente por e-mail com o gráfico em anexo.
+      </p>
+    </div>
+  </section>
+
+  <!-- ESTRUTURA -->
+  <section id="estrutura">
+    <h2>Estrutura de Arquivos</h2>
+    <div class="card">
+      <table>
+        <tr><th>Arquivo</th><th>Descrição</th></tr>
+        <tr><td><code>projeto01.py</code></td><td>Script principal — orquestra todo o pipeline</td></tr>
+        <tr><td><code>email_sender.py</code></td><td>Classe <code>EmailSender</code> para envio de relatórios por e-mail</td></tr>
+        <tr><td><code>gerar_grafico.py</code></td><td>Script auxiliar para geração de gráfico de vendas ao longo do tempo</td></tr>
+        <tr><td><code>imports.py</code></td><td>Centraliza os imports comuns do projeto</td></tr>
+        <tr><td><code>analise.ipynb</code></td><td>Notebook de análise exploratória dos dados</td></tr>
+        <tr><td><code>requirements.txt</code></td><td>Dependências Python do projeto</td></tr>
+        <tr><td><code>.env</code></td><td>Variáveis de ambiente com credenciais (não versionar)</td></tr>
+        <tr><td><code>grafico_vendas.png</code></td><td>Gráfico gerado — vendas por ano e empresa</td></tr>
+        <tr><td><code>vendas_por_empresa.png</code></td><td>Gráfico auxiliar gerado durante análise</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- DEPENDÊNCIAS -->
+  <section id="dependencias">
+    <h2>Dependências</h2>
+    <div class="card">
+      <table>
+        <tr><th>Biblioteca</th><th>Uso no projeto</th></tr>
+        <tr><td><code>pandas</code></td><td>Leitura de SQL, manipulação e agregação dos DataFrames</td></tr>
+        <tr><td><code>psycopg2</code></td><td>Conexão com PostgreSQL</td></tr>
+        <tr><td><code>mysql-connector-python</code></td><td>Conexão com MySQL</td></tr>
+        <tr><td><code>matplotlib</code></td><td>Geração e exportação dos gráficos</td></tr>
+        <tr><td><code>python-dotenv</code></td><td>Carregamento das variáveis do arquivo <code>.env</code></td></tr>
+        <tr><td><code>numpy</code></td><td>Computação numérica (usado no notebook e <code>imports.py</code>)</td></tr>
+        <tr><td><code>ipykernel</code></td><td>Kernel para execução do Jupyter Notebook</td></tr>
+      </table>
+      <h3>Instalação</h3>
+      <pre><code>pip install -r requirements.txt</code></pre>
+    </div>
+  </section>
+
+  <!-- CONFIGURAÇÃO -->
+  <section id="configuracao">
+    <h2>Configuração</h2>
+    <div class="card">
+      <p>Crie um arquivo <code>.env</code> na raiz do projeto com as variáveis abaixo:</p>
+      <pre><code># PostgreSQL (Empresa 02)
+POSTGRES_HOST=seu_host
+POSTGRES_DATABASE=seu_database
+POSTGRES_USER=seu_usuario
+POSTGRES_PASSWORD=sua_senha
+POSTGRES_PORT=5432
+
+# MySQL (Empresa 01)
+MYSQL_HOST=seu_host
+MYSQL_DATABASE=seu_database
+MYSQL_USER=seu_usuario
+MYSQL_PASSWORD=sua_senha
+
+# E-mail
+EMAIL_USER=seu_email@gmail.com
+EMAIL_PASSWORD=sua_senha_de_app
+EMAIL_DESTINATARIO=destinatario@email.com</code></pre>
+      <br>
+      <div class="warn">
+        ⚠️ Para Gmail, utilize uma <strong>senha de aplicativo</strong> (não a senha da conta).
+        Gere em: <a href="https://myaccount.google.com/apppasswords" target="_blank">myaccount.google.com/apppasswords</a>.
+        Nunca versione o arquivo <code>.env</code>.
+      </div>
+    </div>
+  </section>
+
+  <!-- MÓDULOS -->
+  <section id="modulos">
+    <h2>Módulos</h2>
+
+    <h3>projeto01.py — Script Principal</h3>
+    <div class="card">
+      <p>Orquestra o pipeline completo em sequência:</p>
+      <ol>
+        <li>Conecta ao PostgreSQL e MySQL usando variáveis do <code>.env</code></li>
+        <li>Executa query no MySQL: agrega <code>valor_venda</code> por ano (tabela <code>datadt_curso_python.vendas</code>)</li>
+        <li>Executa query no PostgreSQL: agrega <code>valor</code> por ano (tabela <code>vendas.nota_fiscal</code>)</li>
+        <li>Concatena os dois DataFrames e cria tabela pivot por empresa</li>
+        <li>Gera gráfico de barras em escala logarítmica e salva como <code>grafico_vendas.png</code></li>
+        <li>Envia relatório por e-mail via <code>EmailSender</code></li>
+        <li>Fecha as conexões no bloco <code>finally</code></li>
+      </ol>
+      <h3>Queries SQL</h3>
+      <pre><code>-- MySQL (Empresa 01)
+SELECT data_venda, valor_venda
+FROM datadt_curso_python.vendas
+
+-- PostgreSQL (Empresa 02)
+SELECT 'Empresa 02' AS empresa,
+       date_part('Year', data_venda) AS ano,
+       sum(valor) AS total_vendas
+FROM vendas.nota_fiscal
+GROUP BY date_part('Year', data_venda)</code></pre>
+    </div>
+
+    <h3>email_sender.py — Classe EmailSender</h3>
+    <div class="card">
+      <p>Encapsula o envio de e-mails HTML com tabelas e anexos via SMTP (Gmail, porta 587 com STARTTLS).</p>
+      <table>
+        <tr><th>Método</th><th>Descrição</th></tr>
+        <tr><td><code>__init__()</code></td><td>Carrega credenciais do <code>.env</code> e valida</td></tr>
+        <tr><td><code>enviar_relatorio()</code></td><td>Monta e envia o e-mail com DataFrame e anexos</td></tr>
+        <tr><td><code>_dataframe_para_html()</code></td><td>Converte DataFrame em tabela HTML</td></tr>
+        <tr><td><code>_criar_html_estilizado()</code></td><td>Gera template HTML completo do corpo do e-mail</td></tr>
+        <tr><td><code>_validar_credenciais()</code></td><td>Garante que as variáveis de e-mail estão definidas</td></tr>
+        <tr><td><code>_validar_arquivo()</code></td><td>Verifica existência dos arquivos a anexar</td></tr>
+      </table>
+      <h3>Assinatura principal</h3>
+      <pre><code>email_sender.enviar_relatorio(
+    assunto='Relatório de Vendas',
+    titulo='Análise de Vendas',
+    df=df_uniao,           # DataFrame opcional
+    conteudo_texto='',     # Texto alternativo se não houver df
+    anexos=['grafico_vendas.png']
+)</code></pre>
+    </div>
+
+    <h3>gerar_grafico.py</h3>
+    <div class="card">
+      <p>Script auxiliar que recebe um DataFrame <code>df</code> já carregado, agrega vendas por <code>data_venda</code> e plota um gráfico de linha ao longo do tempo, salvando em <code>grafico_vendas.png</code> (300 DPI).</p>
+    </div>
+
+    <h3>imports.py</h3>
+    <div class="card">
+      <p>Centraliza os imports comuns: <code>pandas</code>, <code>numpy</code>, <code>psycopg2</code>, <code>mysql.connector</code>, <code>matplotlib.pyplot</code> e <code>dotenv</code>.</p>
+    </div>
+
+    <h3>analise.ipynb — Notebook Exploratório</h3>
+    <div class="card">
+      <p>Notebook Jupyter para análise interativa. Realiza as mesmas conexões com PostgreSQL e MySQL e carrega os dados de vendas em DataFrames para exploração. Execute com:</p>
+      <pre><code>jupyter notebook analise.ipynb</code></pre>
+    </div>
+  </section>
+
+  <!-- FLUXO -->
+  <section id="fluxo">
+    <h2>Fluxo de Execução</h2>
+    <div class="card">
+      <div class="flow">
+        <span class="flow-step">MySQL</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">PostgreSQL</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">concat + pivot</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">Gráfico PNG</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-step">E-mail</span>
+      </div>
+      <br>
+      <p>Para executar o pipeline completo:</p>
+      <pre><code>python projeto01.py</code></pre>
+    </div>
+  </section>
+
+  <!-- SAÍDAS -->
+  <section id="saidas">
+    <h2>Saídas Geradas</h2>
+    <div class="card">
+      <table>
+        <tr><th>Arquivo</th><th>Descrição</th></tr>
+        <tr><td><code>grafico_vendas.png</code></td><td>Gráfico de barras — vendas por ano e empresa (escala log10, 300 DPI)</td></tr>
+        <tr><td><code>vendas_por_empresa.png</code></td><td>Gráfico auxiliar gerado na análise exploratória</td></tr>
+        <tr><td>E-mail HTML</td><td>Relatório com tabela de dados e <code>grafico_vendas.png</code> em anexo</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ERROS -->
+  <section id="erros">
+    <h2>Tratamento de Erros</h2>
+    <div class="card">
+      <table>
+        <tr><th>Situação</th><th>Comportamento</th></tr>
+        <tr><td>Falha na conexão com banco</td><td>Imprime mensagem de erro e interrompe execução com <code>raise</code></td></tr>
+        <tr><td>Falha na query SQL</td><td>Captura exceção, imprime erro e propaga</td></tr>
+        <tr><td>Arquivo de anexo não encontrado</td><td><code>FileNotFoundError</code> — retorna <code>False</code> sem enviar</td></tr>
+        <tr><td>Credenciais de e-mail ausentes</td><td><code>ValueError</code> lançado no <code>__init__</code></td></tr>
+        <tr><td>Erro SMTP</td><td>Captura <code>SMTPException</code> e retorna <code>False</code></td></tr>
+        <tr><td>Conexões abertas</td><td>Bloco <code>finally</code> garante fechamento mesmo em caso de erro</td></tr>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Projeto 01 — Documentação gerada automaticamente &nbsp;|&nbsp; Desenvolvido por <strong>Nara Pires</strong>
+</footer>
+
+</body>
+</html>
