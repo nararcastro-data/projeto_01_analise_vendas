@@ -101,21 +101,3 @@ class EmailSender:
         except Exception as e:
             print(f"Erro inesperado: {e}")
             return False
-
-
-# Exemplo de uso
-if __name__ == "__main__":
-    sender = EmailSender()
-    
-    # Exemplo com DataFrame
-    df_exemplo = pd.DataFrame({
-        'Produto': ['A', 'B', 'C'],
-        'Vendas': [100, 200, 150]
-    })
-    
-    sender.enviar_relatorio(
-        assunto="Relatório de Vendas",
-        titulo="Resumo de Vendas do Mês",
-        df=df_exemplo,
-        anexos=['grafico_vendas.png']
-    )
